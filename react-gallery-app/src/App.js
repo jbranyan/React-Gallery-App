@@ -3,9 +3,9 @@ import axios from 'axios';
 import './App.css';
 import apiKey from './config';
 import {
-  BrowserRouter,
   Route,
-  Switch
+  Switch,
+  withRouter
 } from 'react-router-dom';
 
 //App Components
@@ -15,7 +15,7 @@ import Search from './components/Search';
 import Navigation from './components/Navigation';
 import PhotoContainer from './components/PhotoContainer';
 
-export default class App extends Component {
+class App extends Component {
   constructor(){
     super();
     this.state = {
@@ -48,22 +48,32 @@ export default class App extends Component {
     this.getPhotos();
   }
 
+  // componentDidUpdate(prevProps){
+
+  //     console.log('prevProps' + JSON.stringify(prevProps.location.pathname));
+  //     console.log('this props' + JSON.stringify(this.props.location.pathname));
+
+  //       if(prevProps.location.pathname !== this.props.location.pathname){
+  //         console.log('different');
+  //       } 
+
+  // }
+
   render() {
     console.log(this.state.query);
     return(
-          <div className='container'>
-            <Search onSearch={this.getPhotos} />
-            <Navigation navSelection={this.handleClick}/>
+      <div className='container'>
+        <Search onSearch={this.getPhotos} />
+        <Navigation navSelection={this.handleClick}/>
 
-            {/* Fix the routes switching */}
-            <Switch>
-              <Route exact path='/' render={ () => <PhotoContainer data={this.state.photos} query={this.state.query} />} />
-              {/* <Route path='/dogs' render={ () => <PhotoContainer data={this.state.photos} query={this.state.query}/>} />  */}
-              {/* <Route path='/cats' render={ () => <PhotoContainer data={this.state.photos} query={this.state.query}/>} />*/}
-              {/* <Route path='/:query' render={({match}) => <PhotoContainer data={this.state.photos}} /> } /> */}
-              <Route component={PageNotFound} />
-            </Switch>
-          </div>
+        {/* Fix the routes switching */}
+        <Switch>
+          <Route exact path='/' render={ () => <PhotoContainer data={this.state.photos} query={this.state.query} />} />
+          <Route path='/search/:query' render={() => <PhotoContainer data={this.state.photos} query={this.state.query}/>} />
+          <Route component={PageNotFound} />
+        </Switch>
+      </div>
     );
   }
 }
+export default withRouter(App);
