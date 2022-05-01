@@ -1,21 +1,22 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
+import React, { Component } from 'react';
+import { NavLink, withRouter } from 'react-router-dom';
 
-const Navigation = (props) => {
+class Navigation extends Component {
 
-    return(
-        <header>
+    render(){
+        return(
             <nav className="main-nav">
                 <ul>
-                    <li><NavLink to='/cats' id='Cats'>Cats</NavLink></li>
-                    <li><NavLink to='/dogs' id='Dogs'>Dogs</NavLink></li>
-                    <li><NavLink to='/computers' id='Computers'>Computers</NavLink></li>
+                    <li><NavLink to='/cats' onClick={this.props.navSelection} id='Cats'>Cats</NavLink></li>
+                    <li><NavLink to='/dogs' onClick={this.props.navSelection} id='Dogs'>Dogs</NavLink></li>
+                    <li><NavLink to='/computers' onClick={this.props.navSelection} id='Computers'>Computers</NavLink></li>
                 </ul>
             </nav>
-        </header>
-    );
+        );
+    }
+
 }
 
-export default Navigation;
+export default withRouter(Navigation);
 
 

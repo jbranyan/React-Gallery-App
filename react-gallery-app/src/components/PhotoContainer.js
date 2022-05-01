@@ -4,6 +4,7 @@ import Photo from './Photo';
 const PhotoContainer = props => {
 
     const results = props.data;
+    console.log(props);
 
     return(
         <div className='photo-container'>
