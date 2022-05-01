@@ -20,7 +20,7 @@ export default class App extends Component {
     super();
     this.state = {
       photos:[],
-      query: 'Cats',
+      query: '',
       isLoading: false
     };
   }
@@ -44,23 +44,21 @@ export default class App extends Component {
   }
 
   render() {
-    // console.log(this.state.query);
+    console.log(this.state.query);
     return(
-      <BrowserRouter>
           <div className='container'>
             <Search onSearch={this.getPhotos} />
             <Navigation navSelection={this.getPhotos}/>
 
+            {/* Fix the routes switching */}
             <Switch>
               <Route exact path='/' render={ () => <PhotoContainer data={this.state.photos} query={this.state.query} />} />
               {/* <Route path='/cats' render={ () => <PhotoContainer data={this.state.photos} query={this.state.query}/>} />
               <Route path='/dogs' render={ () => <PhotoContainer data={this.state.photos} query={this.state.query}/>} /> */}
-              <Route path='/search/:query' component={Search} />
+              {/* <Route path='/:query' render={({match}) => <PhotoContainer data={this.state.photos}} /> } /> */}
               <Route component={PageNotFound} />
             </Switch>
           </div>
-      </BrowserRouter>
-
     );
   }
 }
