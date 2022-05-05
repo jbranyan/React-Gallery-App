@@ -16,27 +16,28 @@ import Navigation from './components/Navigation';
 import PhotoContainer from './components/PhotoContainer';
 
 class App extends Component {
+  //set the initial state
   constructor(){
     super();
     this.state = {
       photos:[],
       query: '',
-      isLoading: false
     };
   }
 
+  //On button click, get the related photos
   handleClick = e => {
     const query = e.target.id;
     this.getPhotos(query);
 }
 
+  //Get the photos from Flickr and set the state
   getPhotos = (query = 'cats') => {
     axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=${query}&per_page=24&format=json&nojsoncallback=1`)
     .then(response => {
       this.setState({
         photos: response.data.photos.photo,
-        query: query,
-        isLoading: false
+        query: query
       });
     })
     .catch(error => {
@@ -48,28 +49,23 @@ class App extends Component {
     this.getPhotos();
   }
 
-  // componentDidUpdate(prevProps){
-
-  //     console.log('prevProps' + JSON.stringify(prevProps.location.pathname));
-  //     console.log('this props' + JSON.stringify(this.props.location.pathname));
-
-  //       if(prevProps.location.pathname !== this.props.location.pathname){
-  //         console.log('different');
-  //       } 
-
-  // }
+  //If the pathname doesn't match the previous get the photos related to the path
+  componentDidUpdate(prevProps){
+    if(prevProps.location.pathname !== this.props.location.pathname){
+      const pathName = this.props.location.pathname !== '/' ? this.props.location.pathname.slice(1) : 'cats';
+      this.getPhotos(pathName);
+    }
+  }
 
   render() {
-    console.log(this.state.query);
     return(
       <div className='container'>
         <Search onSearch={this.getPhotos} />
         <Navigation navSelection={this.handleClick}/>
 
-        {/* Fix the routes switching */}
         <Switch>
           <Route exact path='/' render={ () => <PhotoContainer data={this.state.photos} query={this.state.query} />} />
-          <Route path='/search/:query' render={() => <PhotoContainer data={this.state.photos} query={this.state.query}/>} />
+          <Route path='/:query' render={() => <PhotoContainer data={this.state.photos} query={this.state.query}/>} />
           <Route component={PageNotFound} />
         </Switch>
       </div>

@@ -1,10 +1,11 @@
 import React from 'react';
 
-const PageNotFound = ({match}) => {
+const PageNotFound = () => {
     return (
-        <div className="main-content pagenotfound">
-            <p>Error Page</p>
-        </div>
+        <li class="not-found">
+            <h2>No results found</h2>
+            <p>The search didn't return any results, please try again.</p>
+        </li>
     );
 }
 

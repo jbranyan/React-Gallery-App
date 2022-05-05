@@ -2,20 +2,22 @@ import React, { Component } from 'react';
 import { withRouter } from "react-router";
 
 class Search extends Component{
-
+    //set initial state
     state = {
         searchText: ''
     }
 
+    //On search change, set the state to the entered value
     onSearchChange = e => {
         this.setState({ searchText: e.target.value });
     }
 
+    //On search button submit, set the query state and push the related path
     handleSubmit = e => {
         e.preventDefault();
         this.props.onSearch(this.state.searchText);
         this.setState({ query: this.state.searchText});
-        let path = `/search/${this.state.searchText}`;
+        let path = `/${this.state.searchText}`;
         this.props.history.push(path);
         e.currentTarget.reset();
     }
